@@ -29,12 +29,15 @@ class MyHomePage extends StatefulWidget
 }
 class HomepageState extends State<MyHomePage>
 {
+  TextEditingController firstController = TextEditingController();
+TextEditingController secondController = TextEditingController();
+
   double result=0;
   Map<String,double> keyvalue={"1stNum":0,"2nd Number":0};
 
   myInputchange(inputKey,inputValue){
     setState(() {
-      keyvalue.update(inputKey, (value)=>double.parse(inputValue));
+      keyvalue.update(inputKey, (value)=>double.tryParse(inputValue)??0);
     });
   }
 
@@ -66,7 +69,8 @@ class HomepageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CounterApp"),
+        title: Text("Calculator App"),
+        backgroundColor: const Color.fromARGB(255, 1, 179, 7),
         centerTitle: true,
         ),
         body: Padding(
@@ -74,6 +78,7 @@ class HomepageState extends State<MyHomePage>
           child: Column(
             children: [
               TextField(
+                controller: firstController,
                 decoration: filledDecoration("1st Number"),
                 onChanged: (value){
                   myInputchange("1stNum",value);
@@ -81,6 +86,7 @@ class HomepageState extends State<MyHomePage>
               ),
               SizedBox(height: 15,),
               TextField(
+                controller: secondController,
                 decoration: filledDecoration("2nd Number"),
                 onChanged: (value){
                    myInputchange("2nd Number",value);
